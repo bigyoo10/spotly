@@ -50,7 +50,8 @@ Flutter 기반으로 제작된 개인 프로젝트이며 **지도 기반 장소 
 
 ---
 
-#  앱 화면
+#  앱 화면 및 apk
+- **APK 다운로드**: [spotly_app_v1.0.0.apk](https://github.com/bigyoo10/spotly/releases/download/v1.0.0/app-release.apk)
 
 
 | 지도         | 저장         |
