@@ -52,15 +52,14 @@ Flutter 기반으로 제작된 개인 프로젝트이며 **지도 기반 장소 
 
 #  앱 화면
 
-*(스크린샷 추가 예정)*
 
 | 지도         | 저장         |
 | ---------- | ---------- |
-| screenshot | screenshot |
+| ![map](screenshot/img_4.png) | ![save](screenshot/img_1.png) |
 
 | 폴더         | 상세         |
 | ---------- | ---------- |
-| screenshot | screenshot |
+| ![folder](screenshot/img.png) | ![상세](screenshot/img_2.png) |
 
 ---
 
