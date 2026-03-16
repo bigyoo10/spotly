@@ -1229,75 +1229,66 @@ class _SavedEmptyState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (isTrulyEmpty) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.bookmark_border, size: 64, color: Colors.grey.shade400),
-              const SizedBox(height: 12),
-              const Text(
-                '아직 저장한 장소가 없어요',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 6),
-              const Text(
-                '지도에서 검색 후 저장해보세요.',
-                style: TextStyle(color: Colors.grey),
-              ),
-              const SizedBox(height: 16),
-              FilledButton.icon(
-                onPressed: onGoMap,
-                icon: const Icon(Icons.map_outlined),
-                label: const Text('지도에서 장소 찾기'),
-              ),
-            ],
-          ),
-        ),
-      );
-    }
+    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.search_off, size: 60, color: Colors.grey.shade400),
-            const SizedBox(height: 12),
-            const Text(
-              '조건에 맞는 장소가 없어요',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-            ),
-            const SizedBox(height: 6),
-            Text(
-              hasActiveFilters ? '필터/검색 조건을 초기화해보세요.' : '다른 조건으로 찾아보세요.',
-              style: const TextStyle(color: Colors.grey),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 16),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              alignment: WrapAlignment.center,
-              children: [
-                OutlinedButton.icon(
-                  onPressed: onReset,
-                  icon: const Icon(Icons.filter_alt_off),
-                  label: const Text('초기화'),
+    final title = isTrulyEmpty ? '아직 저장한 장소가 없어요' : '조건에 맞는 장소가 없어요';
+    final subtitle = isTrulyEmpty
+        ? '지도에서 검색 후 저장해보세요.'
+        : (hasActiveFilters ? '필터/검색 조건을 초기화해보세요.' : '다른 조건으로 찾아보세요.');
+    final icon = isTrulyEmpty ? Icons.bookmark_border : Icons.search_off;
+    final iconSize = isTrulyEmpty ? 64.0 : 60.0;
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          padding: EdgeInsets.fromLTRB(24, 24, 24, 24 + bottomInset),
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: IntrinsicHeight(
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(icon, size: iconSize, color: Colors.grey.shade400),
+                    const SizedBox(height: 12),
+                    Text(
+                      title,
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(color: Colors.grey),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 16),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      alignment: WrapAlignment.center,
+                      children: [
+                        if (!isTrulyEmpty)
+                          OutlinedButton.icon(
+                            onPressed: onReset,
+                            icon: const Icon(Icons.filter_alt_off),
+                            label: const Text('초기화'),
+                          ),
+                        FilledButton.icon(
+                          onPressed: onGoMap,
+                          icon: const Icon(Icons.map_outlined),
+                          label: Text(isTrulyEmpty ? '지도에서 장소 찾기' : '지도'),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                FilledButton.icon(
-                  onPressed: onGoMap,
-                  icon: const Icon(Icons.map_outlined),
-                  label: const Text('지도'),
-                ),
-              ],
+              ),
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
